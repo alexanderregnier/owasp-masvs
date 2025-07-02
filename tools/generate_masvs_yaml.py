@@ -36,7 +36,7 @@ def get_masvs_dict(masvs_version, input_dir, controls_dir):
     for file in sorted(os.listdir(input_dir)):
         if "-MASVS-" in file:
             with open(os.path.join(input_dir, file), "r") as f:
-                header = f.readline().replace("# ", "").strip()
+                header = f.readline(5_000_000).replace("# ", "").strip()
                 description = f.read()
                 category_id = header.split(":")[0].strip()
                 title = header.split(":")[1].strip()
@@ -51,7 +51,7 @@ def get_masvs_dict(masvs_version, input_dir, controls_dir):
                 for control_file in os.listdir(controls_dir):
                     if control_file.startswith(category_id):
                         with open(os.path.join(controls_dir, control_file), "r") as cf:
-                            control_id = cf.readline().replace("# ", "").strip()
+                            control_id = cf.readline(5_000_000).replace("# ", "").strip()
                             control_content = cf.read()
                             control_sections = read_md_sections(control_content)
                             control = {"id": control_id} | control_sections
